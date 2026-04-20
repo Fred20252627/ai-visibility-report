@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ignite Growth | AI Visibility Report</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2f;
+      --panel-2: #17213d;
+      --card: #0f1730;
+      --text: #e8ecf8;
+      --muted: #aab4d0;
+      --line: #283455;
+      --accent: #7dd3fc;
+      --accent-2: #60a5fa;
+      --good: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --white: #ffffff;
+      --shadow: 0 18px 50px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #09101d 0%, #0b1020 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .hero {
+      background: radial-gradient(circle at top right, rgba(96,165,250,.22), transparent 32%), linear-gradient(135deg, #121a2f 0%, #0c1326 100%);
+      border: 1px solid rgba(125,211,252,.18);
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid rgba(125,211,252,.28);
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    h1, h2, h3, h4 { margin: 0 0 12px; line-height: 1.2; }
+    h1 { font-size: 40px; }
+    h2 { font-size: 28px; margin-top: 0; }
+    h3 { font-size: 20px; }
+    p { margin: 0 0 14px; color: var(--text); }
+    .sub {
+      color: var(--muted);
+      max-width: 880px;
+      font-size: 16px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .metric {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .metric .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+    }
+    .metric .value {
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .summary-box {
+      background: linear-gradient(180deg, rgba(23,33,61,.95), rgba(13,19,39,.95));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 22px;
+    }
+    .summary-box ul {
+      list-style: none;
+      margin: 14px 0 0;
+      padding: 0;
+    }
+    .summary-box li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .summary-box li:last-child { border-bottom: 0; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 72px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .yes { background: rgba(52,211,153,.16); color: #9ff5d2; }
+    .partial { background: rgba(251,191,36,.16); color: #ffd774; }
+    .no { background: rgba(251,113,133,.16); color: #ff9eb0; }
+    .section {
+      margin-top: 26px;
+      background: linear-gradient(180deg, rgba(18,26,47,.95), rgba(12,18,34,.95));
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .muted { color: var(--muted); }
+    .grid-3, .grid-2, .grid-4 {
+      display: grid;
+      gap: 16px;
+    }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .card h3, .card h4 { margin-bottom: 10px; }
+    .callout {
+      border-left: 4px solid var(--accent-2);
+      background: rgba(96,165,250,.08);
+      padding: 16px 18px;
+      border-radius: 14px;
+      margin: 12px 0 0;
+    }
+    .score {
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .stage {
+      font-size: 18px;
+      color: #cce8ff;
+      font-weight: 600;
+    }
+    ul.tight, ol.tight { margin: 10px 0 0 20px; padding: 0; }
+    li { margin-bottom: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    th {
+      color: #cde4ff;
+      font-weight: 700;
+      background: rgba(255,255,255,.03);
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    details {
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,.02);
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #d6e8ff;
+    }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 28px 0 12px;
+    }
+    @media (max-width: 980px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .metric-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      .wrap { padding: 16px; }
+      .hero, .section { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">AI Visibility Report | Integrated Executive + Evidence HTML</div>
+      <h1>Ignite Growth</h1>
+      <p class="sub">AI visibility audit for <strong>ignitegrowth.co.nz</strong>, focused on how clearly the brand can be understood, surfaced, and recommended in English-language New Zealand buying scenarios.</p>
+      <div class="hero-grid">
+        <div>
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="label">Total Score</div>
+              <div class="value">45 / 100</div>
+            </div>
+            <div class="metric">
+              <div class="label">Current Stage</div>
+              <div class="value" style="font-size:22px;">Identifiable</div>
+            </div>
+            <div class="metric">
+              <div class="label">Strongest AI Context</div>
+              <div class="value" style="font-size:18px;">Branded recognition and SME-fit understanding</div>
+            </div>
+            <div class="metric">
+              <div class="label">Next-stage Goal</div>
+              <div class="value" style="font-size:18px;">Shortlistable</div>
+            </div>
+          </div>
+        </div>
+        <div class="summary-box">
+          <h3>Management Conclusion Box</h3>
+          <ul>
+            <li><span>Can AI see you</span><span class="pill partial">Partial</span></li>
+            <li><span>Can AI understand you</span><span class="pill yes">Yes</span></li>
+            <li><span>Does AI recommend you first consistently</span><span class="pill no">No</span></li>
+          </ul>
+          <div class="callout">
+            Ignite Growth is readable and identifiable, but not yet consistently surfaced or confidently shortlisted for non-branded New Zealand consulting and growth-support demand.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>1. Executive Summary</h2>
+          <div class="muted">Client-facing conclusion</div>
+        </div>
+      </div>
+      <p>Ignite Growth is <strong>understandable to AI, but not yet consistently recommendable</strong>. The website communicates core offers such as business development consulting and B2B sales support with reasonable clarity, especially for SME audiences. However, the current public proof layer, semantic reinforcement, and entity consistency are not yet strong enough to support stable non-branded AI recommendation.</p>
+      <p>The strongest positives are clear service intent, visible SME-oriented positioning, Auckland business presence, and a differentiated outsourced sales support model. The main blockers are weak non-branded visibility, thin trust evidence, semantically weak technical implementation, and homepage-level brand dilution.</p>
+      <div class="grid-3">
+        <div class="card"><h3>One-line Conclusion</h3><p>Ignite Growth can be understood, but it is not yet strongly surfaced or confidently shortlisted by AI systems for generic New Zealand consulting and growth-support queries.</p></div>
+        <div class="card"><h3>Current Stage</h3><p class="stage">Identifiable, approaching early shortlistable boundary, but not stable recommended.</p></div>
+        <div class="card"><h3>Most Accurate Position</h3><p>A niche-fit SME-oriented provider with partial trust signals, but without enough public proof depth to become a stable AI recommendation.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>2. Three Key Findings</h2>
+          <div class="muted">Top-level business interpretation</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>1) Brand recognition is stronger than market recommendation</h3>
+          <p>When directly asked, AI can identify Ignite Growth and broadly understand what it does. But generic discovery and shortlist prompts do not yet favor the brand.</p>
+        </div>
+        <div class="card">
+          <h3>2) The site is readable, but the evidence layer is too thin</h3>
+          <p>Service intent is visible, but case studies, outcome proof, testimonials, and structured trust pages are underdeveloped.</p>
+        </div>
+        <div class="card">
+          <h3>3) Homepage and entity structure weaken clarity</h3>
+          <p>The homepage introduces another brand-led digitalization narrative, which dilutes the main Ignite Growth entity and reduces semantic focus.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>3. Layered Result Overview</h2>
+          <div class="muted">AI result-layer benchmark summary</div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Hits / Total</th>
+            <th>Interpretation</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Branded recognition</td>
+            <td>2 / 2</td>
+            <td>Strong. AI can identify the brand and its core services when directly prompted.</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td>Non-branded generic visibility</td>
+            <td>0 / 4 stable mentions</td>
+            <td>Weak. Generic New Zealand consulting demand is more likely to surface better-known competitors first.</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td>High-intent shortlist inclusion</td>
+            <td>0 / 3 strong inclusions</td>
+            <td>Weak. Ignite Growth may appear as a niche-fit option, but not yet as a stable first-tier recommendation.</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td>Comparison layer</td>
+            <td>Moderate</td>
+            <td>The brand can be positioned credibly, but usually below firms with stronger public proof and recognition.</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td>Trust / evidence extraction</td>
+            <td>Partial</td>
+            <td>Offer clarity exists, but evidence quality is not yet strong enough to fully support recommendation confidence.</td>
+            <td>Medium</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>4. Competitor and Relative Position</h2>
+          <div class="muted">Why AI is more likely to recommend others today</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Most likely co-mentioned competitors</h3>
+          <p>
+            <span class="tag">Magnify Consulting</span>
+            <span class="tag">Indicator</span>
+            <span class="tag">Josty</span>
+            <span class="tag">BlueOcean</span>
+            <span class="tag">HANGAR49</span>
+            <span class="tag">LeadGenNZ</span>
+          </p>
+          <p>These brands are more likely to appear in broad-market recommendation scenarios because they appear to carry stronger market signals, clearer authority, or more recommendation-friendly evidence layers.</p>
+        </div>
+        <div class="card">
+          <h3>Position judgment</h3>
+          <ul class="tight">
+            <li>Ignite Growth is <strong>not yet a broad-market leader</strong>.</li>
+            <li>It currently reads as a <strong>niche-fit SME-oriented option</strong>.</li>
+            <li>Its strongest relative angle is practical support for SMEs that need growth strategy and sales execution help without building a full in-house team.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">Current market position: <strong>identifiable and credible in concept</strong>, but still below stronger-evidenced competitors in generic recommendation scenarios.</div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>5. Information Architecture Assessment</h2>
+          <div class="muted">How the site currently behaves for AI and search interpretation</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Current site behavior</h3>
+          <p>The website behaves more like a <strong>showcase / early service-conversion site</strong> than a mature knowledge-led recommendation-ready site.</p>
+          <ul class="tight">
+            <li>Basic top-level navigation exists.</li>
+            <li>Core service pages are present.</li>
+            <li>About and Contact pages provide baseline legitimacy.</li>
+            <li>Blog and membership sections suggest future expansion, but are not yet mature authority layers.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Primary IA weaknesses</h3>
+          <ul class="tight">
+            <li>Homepage entity dilution caused by another brand / offer narrative.</li>
+            <li>Service architecture is incomplete for the full offer set.</li>
+            <li>Proof architecture is thin, with no strong case study framework.</li>
+            <li>Partner and events sections appear underdeveloped or placeholder-like.</li>
+            <li>Knowledge architecture is too shallow to support recommendation depth.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">IA judgment: <strong>Crawlable but structurally immature for AI recommendation.</strong> The site can be read, but does not yet function as a strong recommendation-ready knowledge and proof system.</div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>6. Keyword Strategy and Content Clusters</h2>
+          <div class="muted">Recommended visibility-building content direction</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Brand keyword layer</h3>
+          <p>Ignite Growth, Ignite Growth Consulting, Ignite Growth NZ, Ignite Growth Auckland</p>
+        </div>
+        <div class="card">
+          <h3>Commercial-intent layer</h3>
+          <p>business development consulting New Zealand, business growth consultant NZ, B2B sales support New Zealand, outsourced sales team NZ, SME sales consulting New Zealand, sales strategy consultant Auckland</p>
+        </div>
+        <div class="card">
+          <h3>High-fit long-tail layer</h3>
+          <p>help SMEs build sustainable sales pipeline NZ, outsourced B2B sales support for small business New Zealand, business development consulting for SMEs Auckland, growth strategy consultant for NZ businesses</p>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:16px;">
+        <div class="card">
+          <h3>Recommended content clusters</h3>
+          <ul class="tight">
+            <li>Business development consulting cluster</li>
+            <li>B2B sales support cluster</li>
+            <li>SME growth strategy cluster</li>
+            <li>Comparison / decision cluster</li>
+            <li>Proof / case-study cluster</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What content is missing most urgently</h3>
+          <ul class="tight">
+            <li>Case studies with outcomes</li>
+            <li>Comparison pages for buyer decision moments</li>
+            <li>Scenario pages for SMEs needing sales execution help</li>
+            <li>Why Choose Us / Results / Who We Help pages</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>7. Website Code Structure Summary</h2>
+          <div class="muted">Technical and semantic readability review</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>What is working</h3>
+          <ul class="tight">
+            <li>WordPress setup is crawlable.</li>
+            <li>robots.txt is present.</li>
+            <li>XML sitemap is present.</li>
+            <li>Canonical tags appear present on reviewed pages.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Key technical weaknesses</h3>
+          <ul class="tight">
+            <li>No visible meta descriptions on reviewed key pages.</li>
+            <li>No visible JSON-LD / schema detected on key pages.</li>
+            <li>No visible OG title / OG description detected on key pages.</li>
+            <li>Homepage H1 does not reinforce the main Ignite Growth entity.</li>
+            <li>Placeholder / incomplete pages lower trust and semantic quality.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">Technical judgment: <strong>Technically crawlable, but semantically weak and trust-reducing in important places.</strong></div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>8. Priority Recommendations</h2>
+          <div class="muted">P0 / P1 / P2 action system</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>P0, Immediate</h3>
+          <ul class="tight">
+            <li>Rebuild the homepage first screen around Ignite Growth as the main entity.</li>
+            <li>Create a real proof layer with case studies, results, and testimonials.</li>
+            <li>Fix unfinished / placeholder pages that reduce trust.</li>
+          </ul>
+          <p class="muted">Expected impact: entity clarity, trust extraction, recommendation confidence</p>
+        </div>
+        <div class="card">
+          <h3>P1, Near Term</h3>
+          <ul class="tight">
+            <li>Build full destination pages for each core service.</li>
+            <li>Add organization, service, and FAQ schema.</li>
+            <li>Publish comparison and decision-stage content.</li>
+          </ul>
+          <p class="muted">Expected impact: service recognition, semantic coverage, shortlistability</p>
+        </div>
+        <div class="card">
+          <h3>P2, Growth Phase</h3>
+          <ul class="tight">
+            <li>Develop a stronger insight hub.</li>
+            <li>Build industry / buyer-scenario pages.</li>
+            <li>Add llms.txt as a low-cost machine-readable reinforcement layer.</li>
+          </ul>
+          <p class="muted">Expected impact: broader discoverability, fit matching, AI readability reinforcement</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>9. 90-Day Roadmap</h2>
+          <div class="muted">Execution roadmap</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Days 1-30</h3>
+          <ul class="tight">
+            <li>Rewrite homepage messaging and H1</li>
+            <li>Remove entity dilution</li>
+            <li>Fix unfinished trust-damaging pages</li>
+            <li>Publish 2 proper proof-led case studies</li>
+            <li>Add baseline meta descriptions and OG data</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Days 31-60</h3>
+          <ul class="tight">
+            <li>Launch complete service pages</li>
+            <li>Add organization, service, and FAQ schema</li>
+            <li>Publish 4-6 high-intent articles</li>
+            <li>Create Why Choose Ignite Growth / Results / Who We Help pages</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Days 61-90</h3>
+          <ul class="tight">
+            <li>Launch comparison pages</li>
+            <li>Launch industry / scenario landing pages</li>
+            <li>Expand testimonials and proof system</li>
+            <li>Re-run AI visibility benchmark</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>10. Method</h2>
+          <div class="muted">Short method summary</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Audit setup</h3>
+          <ul class="tight">
+            <li>Audit date: 20 Apr 2026</li>
+            <li>Market: New Zealand</li>
+            <li>Prompt language: English</li>
+            <li>Question sample size: 15</li>
+            <li>Prompt structure: fixed benchmark set</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Interpretation limits</h3>
+          <ul class="tight">
+            <li>AI result-layer outputs reflect current public visibility, not guaranteed rankings.</li>
+            <li>Limited sample sizes still support directional judgment, but should be retested after improvements.</li>
+            <li>Branded recognition is supporting evidence, not the main measure of non-branded visibility.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>11. Evidence Section</h2>
+          <div class="muted">Defense-grade evidence and scoring support</div>
+        </div>
+      </div>
+
+      <h3>11.1 Judgment Standards</h3>
+      <table>
+        <thead>
+          <tr><th>Label</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Yes</td><td>Clearly present and supported</td></tr>
+          <tr><td>Weak</td><td>Partially present, inconsistent, or low-confidence</td></tr>
+          <tr><td>Correct</td><td>AI identifies the brand / service accurately</td></tr>
+          <tr><td>Partial</td><td>Incomplete or partly accurate</td></tr>
+          <tr><td>No</td><td>Not present</td></tr>
+          <tr><td>Unclear</td><td>Insufficient evidence</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:28px;">11.2 Master Question Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Question ID</th>
+            <th>Question Type</th>
+            <th>Brand Mentioned</th>
+            <th>Identification</th>
+            <th>Recommendation</th>
+            <th>Competitors Mentioned</th>
+            <th>Relative Position</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Q1</td><td>Branded recognition</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not applicable</td><td>High</td></tr>
+          <tr><td>Q2</td><td>Branded fit</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not applicable</td><td>High</td></tr>
+          <tr><td>Q3</td><td>Generic competitor discovery</td><td>No</td><td>Unclear</td><td>No</td><td>Magnify Consulting, Indicator, Josty</td><td>Lower</td><td>Low</td></tr>
+          <tr><td>Q4</td><td>Generic service combination</td><td>No</td><td>Unclear</td><td>No</td><td>Magnify Consulting, Indicator, BlueOcean, Josty</td><td>Lower</td><td>Low</td></tr>
+          <tr><td>Q5</td><td>High-intent provider search</td><td>No</td><td>Unclear</td><td>No</td><td>Magnify Consulting, Josty, HANGAR49, LeadGenNZ</td><td>Lower</td><td>Low</td></tr>
+          <tr><td>Q6</td><td>High-intent shortlist</td><td>No</td><td>Unclear</td><td>No</td><td>Magnify Consulting, Indicator, Josty</td><td>Lower</td><td>Low</td></tr>
+          <tr><td>Q7</td><td>Recommendation with reasons</td><td>Unclear</td><td>Partial</td><td>Weak</td><td>Magnify Consulting, Josty, Indicator</td><td>Not enough evidence</td><td>Low</td></tr>
+          <tr><td>Q8</td><td>Shortlist sales execution</td><td>Unclear</td><td>Partial</td><td>Weak</td><td>Magnify Consulting, Indicator, Josty</td><td>Not enough evidence</td><td>Low</td></tr>
+          <tr><td>Q9</td><td>Buyer shortlist service combo</td><td>Unclear</td><td>Partial</td><td>Weak</td><td>Magnify Consulting, Indicator, BlueOcean, Josty</td><td>Lower</td><td>Low</td></tr>
+          <tr><td>Q10</td><td>Comparison</td><td>Yes</td><td>Correct</td><td>Weak</td><td>Magnify Consulting, Indicator, Josty</td><td>Similar</td><td>Medium</td></tr>
+          <tr><td>Q11</td><td>Competitor overlap</td><td>Yes</td><td>Correct</td><td>Weak</td><td>Magnify Consulting, Indicator, Josty, BlueOcean</td><td>Similar</td><td>Medium</td></tr>
+          <tr><td>Q12</td><td>Market position</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not enough evidence</td><td>Medium</td></tr>
+          <tr><td>Q13</td><td>Credibility signals</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not applicable</td><td>Medium</td></tr>
+          <tr><td>Q14</td><td>Trust and recommendability</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not enough evidence</td><td>Medium</td></tr>
+          <tr><td>Q15</td><td>Clarity of offer</td><td>Yes</td><td>Correct</td><td>Weak</td><td>None</td><td>Not applicable</td><td>High</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:28px;">11.3 Scoring Rules and Results</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Score</th>
+            <th>Weight</th>
+            <th>Explanation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>AI real result layer</td><td>12</td><td>30</td><td>Branded understanding is good, but non-branded and high-intent recommendation performance remains weak.</td></tr>
+          <tr><td>Competitor / AI share layer</td><td>9</td><td>20</td><td>Ignite Growth is comparable in some niche-fit contexts but generally below more established competitors.</td></tr>
+          <tr><td>On-site GEO / AI readiness</td><td>11</td><td>20</td><td>The site is crawlable and readable, but semantically underdeveloped and architecturally incomplete.</td></tr>
+          <tr><td>Brand / off-site recognition</td><td>7</td><td>15</td><td>Basic entity visibility exists, but broader authority and external knowledge signals appear limited.</td></tr>
+          <tr><td>Trust signals / content quality</td><td>6</td><td>15</td><td>Offer clarity exists, but proof assets, partner credibility, and structured trust support are thin.</td></tr>
+          <tr><th>Total</th><th>45</th><th>100</th><th>Very weak stable AI visibility foundation at the current stage.</th></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:28px;">11.4 Page / Code / Entity Evidence</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Evidence ID</th>
+            <th>Source</th>
+            <th>Finding</th>
+            <th>Impact</th>
+            <th>Evidence Strength</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>E1</td><td>Homepage</td><td>Homepage H1 emphasizes another digitalization narrative rather than Ignite Growth’s main consulting identity.</td><td>Weakens entity clarity and homepage relevance.</td><td>High</td></tr>
+          <tr><td>E2</td><td>Homepage / About / Service pages</td><td>No visible JSON-LD / schema detected on reviewed key pages.</td><td>Weak semantic reinforcement for AI and search extraction.</td><td>High</td></tr>
+          <tr><td>E3</td><td>Homepage / About / Service pages</td><td>No visible meta descriptions detected on reviewed key pages.</td><td>Reduces summary clarity and snippet quality.</td><td>High</td></tr>
+          <tr><td>E4</td><td>Business Development + B2B Sales pages</td><td>Core service pages explain offer, process, and fit with reasonable clarity.</td><td>Supports brand understanding and service extraction.</td><td>Medium-High</td></tr>
+          <tr><td>E5</td><td>Our Partners page</td><td>Placeholder partner names and generic descriptions remain visible.</td><td>Reduces trust and perceived maturity.</td><td>High</td></tr>
+          <tr><td>E6</td><td>Events / Workshops pages</td><td>Low-substance content suggests incomplete supporting sections.</td><td>Weakens authority and ecosystem credibility.</td><td>Medium</td></tr>
+          <tr><td>E7</td><td>AI benchmark Q1-Q2</td><td>Branded recognition is strong and service understanding is clear when the brand is named directly.</td><td>Confirms basic entity readability.</td><td>High</td></tr>
+          <tr><td>E8</td><td>AI benchmark Q3-Q9</td><td>Generic and shortlist prompts favor other firms before Ignite Growth.</td><td>Confirms weak non-branded recommendation visibility.</td><td>Medium-High</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:28px;">11.5 Competitor Matrix</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Competitor</th>
+            <th>Why it appears</th>
+            <th>Pressure on Ignite Growth</th>
+            <th>Relative position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Magnify Consulting</td><td>Likely stronger consulting visibility and broader recommendation presence.</td><td>High</td><td>Above Ignite Growth in generic demand scenarios</td></tr>
+          <tr><td>Indicator</td><td>Appears as a more established consulting reference in broad-market queries.</td><td>High</td><td>Above Ignite Growth in generic consulting visibility</td></tr>
+          <tr><td>Josty</td><td>Relevant in growth and execution-oriented SME scenarios.</td><td>Medium</td><td>Competes closely in SME-fit narratives</td></tr>
+          <tr><td>BlueOcean</td><td>Appears in broader service-combination query space.</td><td>Medium</td><td>Competes where service breadth matters</td></tr>
+          <tr><td>HANGAR49 / LeadGenNZ</td><td>Surface in pipeline-building and lead-generation style demand.</td><td>Medium</td><td>Compete when buyer intent is execution-heavy</td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:28px;">11.6 Final Evidence-Based Synthesis</h3>
+      <div class="callout">Ignite Growth is <strong>not invisible</strong>. It is readable and identifiable, especially in branded contexts. The main gap is the distance between being understood and being confidently recommended. To move from <strong>identifiable</strong> to <strong>shortlistable</strong>, the brand needs a stronger homepage entity system, deeper proof architecture, and more complete semantic and content coverage.</div>
+
+      <details style="margin-top:18px;">
+        <summary>Appendix: Additional Notes</summary>
+        <p style="margin-top:12px;">robots.txt is present and includes a sitemap reference. However, the file also contains restrictive AI-related bot directives managed through Cloudflare, which may affect how some AI crawlers access the site. This does not override result-layer findings by itself, but it is relevant context for machine-accessibility considerations.</p>
+        <p>Service architecture currently signals multiple offers, including business development consulting, B2B sales support, sales and marketing consulting, executive coaching, and workplace training. However, the depth and consistency of destination-page support vary, limiting extraction clarity for the full service portfolio.</p>
+      </details>
+    </section>
+
+    <div class="footer">
+      Prepared as a single integrated HTML delivery file for client presentation and internal review.
+    </div>
+  </div>
+</body>
+</html>
